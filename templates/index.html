@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Company - Group Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Travel Company</h1>
+        <p>Group with strangers going to the same destination to reduce fares!</p>
+
+        <div class="form-section">
+            <h2>Join a Group</h2>
+            <form id="join-form">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="text" id="location" placeholder="Current Location (e.g., Railway Station)" required>
+                <input type="text" id="destination" placeholder="Destination" required>
+                <input type="text" id="contact" placeholder="Contact Info (Phone/Email)" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="groups-section">
+            <h2>Available Groups</h2>
+            <button id="refresh-groups">Refresh Groups</button>
+            <div id="groups-list"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>

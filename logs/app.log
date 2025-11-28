@@ -1,0 +1,18 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 661-937-711
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:07:20] "GET /health HTTP/1.1" 200 -
+INFO:root:User testuser registered
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:07:52] "POST /register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:08:07] "POST /login HTTP/1.1" 200 -
+INFO:root:User testuser set destination City B
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:08:27] "POST /destination HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:08:42] "GET /find_companions HTTP/1.1" 200 -
+INFO:root:User testuser2 registered
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:08:59] "POST /register HTTP/1.1" 200 -
+INFO:root:User testuser2 set destination City B
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:09:13] "POST /destination HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:09:28] "GET /find_companions HTTP/1.1" 200 -
