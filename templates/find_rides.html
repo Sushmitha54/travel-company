@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Find Rides - Travel Company{% endblock %}
+
+{% block content %}
+    <h1>Find Rides</h1>
+    <p>Available rides:</p>
+    {% if rides %}
+        <ul>
+            {% for ride in rides %}
+                <li>{{ ride.location }} to {{ ride.destination }} on {{ ride.date_time }} by {{ ride.user.username }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No rides available.</p>
+    {% endif %}
+{% endblock %}

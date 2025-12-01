@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Travel Company{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>Welcome, {{ current_user.username }}!</p>
+
+    <h2>Your Rides</h2>
+    {% if rides %}
+        <ul>
+            {% for ride in rides %}
+                <li>{{ ride.location }} to {{ ride.destination }} on {{ ride.date_time }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no rides posted yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('post_ride') }}">Post a new ride</a>
+{% endblock %}

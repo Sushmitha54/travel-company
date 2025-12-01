@@ -16,3 +16,48 @@ INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:08:59] "POST /register HTTP/1.1" 200
 INFO:root:User testuser2 set destination City B
 INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:09:13] "POST /destination HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 11:09:28] "GET /find_companions HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:16:32] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:16:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:16:32] "[36mGET /static/js/script.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:16:32] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:06] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:08] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:08] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:09] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:09] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:09] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:11] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:11] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:13] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:14] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:14] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:15] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:15] "[33mGET /groups HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:17] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:17] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:17] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:18] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:20] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:20] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:20] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:21] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:21] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:21] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:21] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:21] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:22] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:22] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:22] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:22] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:17:25] "[33mPOST /submit HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [28/Nov/2025 14:18:00] "GET / HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\SUSHMITHA.G.S\\Documents\\python\\travel-company\\models.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 661-937-711
+INFO:werkzeug: * Detected change in 'C:\\Users\\SUSHMITHA.G.S\\Documents\\python\\travel-company\\forms.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 661-937-711
+INFO:werkzeug: * Detected change in 'C:\\Users\\SUSHMITHA.G.S\\Documents\\python\\travel-company\\app.py', reloading
+INFO:werkzeug: * Restarting with stat

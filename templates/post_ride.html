@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Post Ride - Travel Company{% endblock %}
+
+{% block content %}
+    <h1>Post a Ride</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.location.label }}<br>
+            {{ form.location }}
+            {% if form.location.errors %}
+                {% for error in form.location.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.destination.label }}<br>
+            {{ form.destination }}
+            {% if form.destination.errors %}
+                {% for error in form.destination.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.date_time.label }}<br>
+            {{ form.date_time }}
+            {% if form.date_time.errors %}
+                {% for error in form.date_time.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {{ form.submit }}
+    </form>
+{% endblock %}

@@ -1,32 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Company - Group Travel</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to Travel Company</h1>
-        <p>Group with strangers going to the same destination to reduce fares!</p>
+{% extends "base.html" %}
 
-        <div class="form-section">
-            <h2>Join a Group</h2>
-            <form id="join-form">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="text" id="location" placeholder="Current Location (e.g., Railway Station)" required>
-                <input type="text" id="destination" placeholder="Destination" required>
-                <input type="text" id="contact" placeholder="Contact Info (Phone/Email)" required>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+{% block title %}Home - Travel Company{% endblock %}
 
-        <div class="groups-section">
-            <h2>Available Groups</h2>
-            <button id="refresh-groups">Refresh Groups</button>
-            <div id="groups-list"></div>
+{% block content %}
+    <h1>Welcome to Travel Company</h1>
+    <p>Find or create rides to share with others!</p>
+
+    <h2>Create a Ride</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }}<br>
+            {{ form.name }}
+            {% if form.name.errors %}
+                {% for error in form.name.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
         </div>
-    </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
+        <div>
+            {{ form.location.label }}<br>
+            {{ form.location }}
+            {% if form.location.errors %}
+                {% for error in form.location.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.destination.label }}<br>
+            {{ form.destination }}
+            {% if form.destination.errors %}
+                {% for error in form.destination.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {{ form.contact.label }}<br>
+            {{ form.contact }}
+            {% if form.contact.errors %}
+                {% for error in form.contact.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {{ form.submit }}
+    </form>
+
+    <h2>Find Rides</h2>
+    <a href="{{ url_for('find_rides') }}">Browse available rides</a>
+{% endblock %}
