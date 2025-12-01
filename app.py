@@ -1,24 +1,28 @@
 import os
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_cors import CORS
 from forms import RegisterForm, LoginForm, RideForm
-from models import db, User, Ride
-from dotenv import load_dotenv
 
-load_dotenv()
 
 def create_app():
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'change-me-secret')
-    database_url = os.getenv("DATABASE_URL", "sqlite:///instance/app.db")
+    database_url = os.getenv("DATABASE_URL", "sqlite:///app.db")
     # If using Heroku/Render style DATABASE_URL that starts with postgres:// convert to postgresql://
     if database_url.startswith("postgres://"):
         database_url = database_url.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    db = SQLAlchemy()
     db.init_app(app)
+
+    CORS(app)
+
+    with app.app_context():
+        db.create_all()
 
     login_manager = LoginManager()
     login_manager.login_view = "login"
@@ -27,10 +31,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
-
-    @app.before_first_request
-    def create_tables():
-        db.create_all()
 
     @app.route('/')
     def index():
@@ -46,13 +46,56 @@ def create_app():
             if User.query.filter_by(email=form.email.data).first():
                 flash("Email already registered", "warning")
                 return redirect(url_for('register'))
-            user = User(name=form.name.data, email=form.email.data, contact=form.contact.data)
+            user = User(name=form.name, email=form.email.data, contact=form.contact.data)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
             flash("Account created. Please log in.", "success")
             return redirect(url_for('login'))
         return render_template('register.html', form=form)
+
+    @app.route('/join', methods=['POST'])
+    @login_required
+    def join():
+        data = request.form or request.json
+        print("Received join:", data)
+        ride_id = data.get('ride_id')
+        ride = Ride.query.get(ride_id)
+        if ride and current_user not in ride.joined_users:
+            ride.joined_users.append(current_user)
+            db.session.commit()
+        return jsonify({"success": True})
+
+    @app.route('/submit', methods=['POST'])
+    def submit():
+        data = request.json
+        print("Received submit:", data)
+        ride = Ride(
+            name=data.get('name'),
+            location=data.get('location'),
+            destination=data.get('destination'),
+            contact=data.get('contact')
+        )
+        db.session.add(ride)
+        db.session.commit()
+        return jsonify({"message": "Ride created successfully"})
+
+    @app.route('/groups')
+    def groups():
+        print("Received groups request")
+        rides = Ride.query.all()
+        groups = {}
+        for ride in rides:
+            dest = ride.destination
+            if dest not in groups:
+                groups[dest] = []
+            groups[dest].append({
+                "name": ride.name,
+                "location": ride.location,
+                "contact": ride.contact
+            })
+        print("Sending groups:", groups)
+        return jsonify(groups)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -110,5 +153,7 @@ def create_app():
 
     return app
 
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
+    app.run(host='0.0.0.0', port=5000)

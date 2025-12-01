@@ -4,16 +4,19 @@ document.getElementById('join-form').addEventListener('submit', function(e) {
     const location = document.getElementById('location').value;
     const destination = document.getElementById('destination').value;
     const contact = document.getElementById('contact').value;
+    const data = { name, location, destination, contact };
 
-    fetch('/submit', {
+    console.log("Sending data to submit:", data);
+    fetch('http://127.0.0.1:5000/submit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, location, destination, contact })
+        body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(data => {
+        console.log("Received from submit:", data);
         alert(data.message || data.error);
         if (data.message) {
             document.getElementById('join-form').reset();
@@ -26,9 +29,11 @@ document.getElementById('join-form').addEventListener('submit', function(e) {
 document.getElementById('refresh-groups').addEventListener('click', loadGroups);
 
 function loadGroups() {
-    fetch('/groups')
+    console.log("Loading groups");
+    fetch('http://127.0.0.1:5000/groups')
     .then(response => response.json())
     .then(data => {
+        console.log("Received groups data:", data);
         const groupsList = document.getElementById('groups-list');
         groupsList.innerHTML = '';
         for (const [dest, users] of Object.entries(data)) {

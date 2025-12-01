@@ -1,28 +1,53 @@
-# Station Ride Share
+# 🚗 Travel Company Ride-Share Website
 
-A web application for travelers at stations (like railway stations) to group up with strangers going to the same destination to reduce transportation fares by sharing rides.
+A Flask-based platform that connects travelers at stations (railway, bus stop, metro, etc.) going to the same destination so they can share rides and reduce travel costs.
 
-## Features
+---
 
-- User registration and login
-- Set current location and destination
-- Find companions going to the same destination
-- Group travelers for shared rides
+## 🌟 Features
 
-## API Endpoints
+* 🔍 **Find Rides** — View available rides based on location and destination.
+* 👥 **Join a Ride Group** — Connect with travelers going to the same place.
+* 📝 **User Registration & Login** — Secure authentication system.
+* 🎨 **Beautiful, colorful UI** — Clean, responsive interface.
+* 🗄 **SQLite/PostgreSQL Database Support** — Flexible storage.
+* 🌐 **Deployable on Render / Railway / GitHub** — Easy cloud hosting.
 
-- GET /health - Health check
-- POST /register - Register a new user
-- POST /login - Login user
-- POST /destination - Set user's destination
-- GET /find_companions - Find groups of travelers
+---
 
-## Local Development
+## 🏠 Pages Included
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the app: `python app.py`
-3. Or with Gunicorn: `gunicorn app:app --bind 0.0.0.0:5000`
+* **Home Page** — Overview and navigation
+* **Register Page** — Create a new account
+* **Login Page** — Login securely
+* **Find Rides Page** — Search and join rides
 
-## Deployment
+All pages are styled for a modern, vibrant look.
 
-Deployed on Render with Gunicorn.
+---
+
+## 🗄 Database Setup
+
+### SQLite (Local Development)
+
+* Database file located inside `instance/app.db`
+* Auto-created when you run the Flask app
+
+### PostgreSQL (Production on Render)
+
+Set the following environment variable:
+
+```
+DATABASE_URL=postgresql://<user>:<password>@<host>/<dbname>
+```
+
+The app automatically connects when deployed.
+
+---
+
+## � Deployment (Render)
+
+1. Push code to GitHub
+2. Visit [https://render.com](https://render.com)
+3. Create a **New Web Service**
+4. Con

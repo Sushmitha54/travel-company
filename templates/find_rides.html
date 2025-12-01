@@ -4,14 +4,41 @@
 
 {% block content %}
     <h1>Find Rides</h1>
-    <p>Available rides:</p>
+    <p>Available Groups:</p>
     {% if rides %}
         <ul>
             {% for ride in rides %}
-                <li>{{ ride.location }} to {{ ride.destination }} on {{ ride.date_time }} by {{ ride.user.username }}</li>
+                <li>{{ ride.location }} to {{ ride.destination }} on {{ ride.date_time }} by {{ ride.user.name if ride.user else 'Anonymous' }}
+                    {% if current_user.is_authenticated and current_user not in ride.joined_users %}
+                        <button onclick="joinRide({{ ride.id }})">Join</button>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No rides available.</p>
+        <p>No groups available.</p>
     {% endif %}
+
+    <script>
+        function joinRide(rideId) {
+            const data = {ride_id: rideId};
+            console.log("Sending data:", data);
+            fetch('http://127.0.0.1:5000/join', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received:", data);
+                if (data.success) {
+                    alert('Joined successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to join.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 {% endblock %}
