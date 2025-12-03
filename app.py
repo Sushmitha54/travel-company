@@ -155,7 +155,7 @@ class BookingForm(FlaskForm):
 #        APP FACTORY
 # -------------------------
 
-def create_app():
+def create_app(*args, **kwargs):
     app = Flask(__name__, static_folder="static", template_folder="templates")
 
     # Config
