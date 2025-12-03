@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmed - Travel Company{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-success">
+                <div class="card-header bg-success text-white text-center">
+                    <h2 class="mb-0"><i class="fas fa-check-circle fa-2x"></i></h2>
+                    <h3 class="mb-0 mt-2">Booking Confirmed!</h3>
+                    <p class="mb-0">Your ride has been successfully booked</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading"><i class="fas fa-ticket-alt"></i> Booking Details</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Booking ID:</strong> #{{ booking.id }}</p>
+                                <p><strong>Passenger Name:</strong> {{ booking.name }}</p>
+                                <p><strong>Contact:</strong> {{ booking.contact }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>From:</strong> {{ booking.location }}</p>
+                                <p><strong>To:</strong> {{ booking.destination }}</p>
+                                <p><strong>Date:</strong> {{ booking.travel_date.strftime('%B %d, %Y') }}</p>
+                                <p><strong>Time:</strong> {{ booking.travel_time.strftime('%I:%M %p') }}</p>
+                                <p><strong>Passengers:</strong> {{ booking.passengers }}</p>
+                            </div>
+                        </div>
+                        <p><strong>Status:</strong>
+                            <span class="badge bg-{{ 'success' if booking.status == 'confirmed' else 'warning' }}">
+                                {{ booking.status.title() }}
+                            </span>
+                        </p>
+                        <p><strong>Booked on:</strong> {{ booking.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-eye fa-2x text-primary mb-2"></i>
+                                    <h5>View My Bookings</h5>
+                                    <p class="text-muted small">Check all your ride bookings</p>
+                                    <a href="{{ url_for('my_bookings') }}" class="btn btn-outline-primary">View Bookings</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-home fa-2x text-success mb-2"></i>
+                                    <h5>Book Another Ride</h5>
+                                    <p class="text-muted small">Plan your next journey</p>
+                                    <a href="{{ url_for('book_ride') }}" class="btn btn-outline-success">Book New Ride</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <h5><i class="fas fa-info-circle text-info"></i> Important Information</h5>
+                        <ul class="mb-0">
+                            <li>Please arrive at least 15 minutes before your scheduled time</li>
+                            <li>Keep your booking ID for reference</li>
+                            <li>Contact the ride coordinator if you need to make changes</li>
+                            <li>You can cancel or modify your booking up to 2 hours before departure</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-secondary ms-2">
+                        <i class="fas fa-print"></i> Print Confirmation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-refresh status every 30 seconds
+setInterval(function() {
+    fetch(window.location.href, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status && data.status !== '{{ booking.status }}') {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.log('Status check failed:', error);
+    });
+}, 30000);
+
+// Print styles
+if (window.location.search.includes('print')) {
+    window.print();
+}
+</script>
+
+<style>
+@media print {
+    .card-footer, .btn, .alert-info {
+        display: none !important;
+    }
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+    .card-header {
+        background: #f8f9fa !important;
+        color: #000 !important;
+        border-bottom: 1px solid #000 !important;
+    }
+}
+</style>

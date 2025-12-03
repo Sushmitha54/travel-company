@@ -3,51 +3,432 @@
 {% block title %}Home - Travel Company{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Travel Company</h1>
-    <p>Find or create rides to share with others!</p>
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-lg-start">
+                <h1 class="display-4 fw-bold mb-4">
+                    Travel Together,<br>
+                    <span class="text-primary">Save Together</span>
+                </h1>
+                <p class="lead mb-4 text-muted">
+                    Join thousands of travelers sharing rides to their destinations.
+                    Save money, make friends, and reduce your carbon footprint.
+                </p>
+                <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                    <a href="{{ url_for('book_ride') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-plus-circle me-2"></i>Book Your Ride
+                    </a>
+                    <a href="{{ url_for('find_rides') }}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-search me-2"></i>Find Rides
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="hero-image">
+                    <i class="fas fa-route fa-10x text-primary opacity-10"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <h2>Create a Ride</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.name.label }}<br>
-            {{ form.name }}
-            {% if form.name.errors %}
-                {% for error in form.name.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            {% endif %}
+<!-- Stats Section -->
+<section class="stats-section py-4 mb-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                    <h3 class="fw-bold">10,000+</h3>
+                    <p class="text-muted mb-0">Happy Travelers</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-route fa-2x text-success mb-2"></i>
+                    <h3 class="fw-bold">50,000+</h3>
+                    <p class="text-muted mb-0">Rides Completed</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-city fa-2x text-warning mb-2"></i>
+                    <h3 class="fw-bold">500+</h3>
+                    <p class="text-muted mb-0">Cities Covered</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-star fa-2x text-danger mb-2"></i>
+                    <h3 class="fw-bold">4.8</h3>
+                    <p class="text-muted mb-0">Average Rating</p>
+                </div>
+            </div>
         </div>
-        <div>
-            {{ form.location.label }}<br>
-            {{ form.location }}
-            {% if form.location.errors %}
-                {% for error in form.location.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div>
-            {{ form.destination.label }}<br>
-            {{ form.destination }}
-            {% if form.destination.errors %}
-                {% for error in form.destination.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div>
-            {{ form.contact.label }}<br>
-            {{ form.contact }}
-            {% if form.contact.errors %}
-                {% for error in form.contact.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            {% endif %}
-        </div>
-        {{ form.submit }}
-    </form>
+    </div>
+</section>
 
-    <h2>Find Rides</h2>
-    <a href="{{ url_for('find_rides') }}">Browse available rides</a>
+<!-- Features Section -->
+<section class="features-section py-5 mb-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Why Choose Travel Company?</h2>
+            <p class="text-muted">Experience the future of ride-sharing with our innovative platform</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold">Safe & Secure</h4>
+                    <p class="text-muted">Verified users, secure payments, and 24/7 customer support for peace of mind.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-dollar-sign fa-3x text-success"></i>
+                    </div>
+                    <h4 class="fw-bold">Save Money</h4>
+                    <p class="text-muted">Split travel costs and save up to 70% on your transportation expenses.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center h-100">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-leaf fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold">Eco-Friendly</h4>
+                    <p class="text-muted">Reduce carbon emissions by sharing rides instead of traveling alone.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Actions Section -->
+<section class="quick-actions-section py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold mb-4">Ready to Start Your Journey?</h2>
+                <p class="text-muted mb-4">Choose how you'd like to get started with Travel Company</p>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="action-card">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-plus-circle fa-3x text-primary mb-3"></i>
+                                <h5 class="fw-bold">Post a Ride</h5>
+                                <p class="text-muted mb-3">Share your journey and find passengers to travel with</p>
+                                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#postRideModal">
+                                    <i class="fas fa-plus me-2"></i>Create Ride
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="action-card">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-search fa-3x text-success mb-3"></i>
+                                <h5 class="fw-bold">Find a Ride</h5>
+                                <p class="text-muted mb-3">Browse available rides and join fellow travelers</p>
+                                <a href="{{ url_for('find_rides') }}" class="btn btn-success w-100">
+                                    <i class="fas fa-search me-2"></i>Browse Rides
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Post Ride Modal -->
+<div class="modal fade" id="postRideModal" tabindex="-1" aria-labelledby="postRideModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="postRideModalLabel">
+                    <i class="fas fa-plus-circle me-2"></i>Post Your Ride
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="postRideForm">
+                    {{ form.hidden_tag() }}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label fw-bold">
+                                <i class="fas fa-user me-1"></i>Your Name
+                            </label>
+                            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                            {% if form.name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contact" class="form-label fw-bold">
+                                <i class="fas fa-phone me-1"></i>Contact Number
+                            </label>
+                            {{ form.contact(class="form-control" + (" is-invalid" if form.contact.errors else "")) }}
+                            {% if form.contact.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.contact.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="location" class="form-label fw-bold">
+                                <i class="fas fa-map-marker-alt me-1"></i>From Location
+                            </label>
+                            {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else "")) }}
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.location.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="destination" class="form-label fw-bold">
+                                <i class="fas fa-flag-checkered me-1"></i>To Destination
+                            </label>
+                            {{ form.destination(class="form-control" + (" is-invalid" if form.destination.errors else "")) }}
+                            {% if form.destination.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.destination.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                            <i class="fas fa-paper-plane me-2"></i>Post Ride
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">What Our Travelers Say</h2>
+            <p class="text-muted">Real experiences from our community</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="card-body text-center">
+                        <div class="testimonial-avatar mb-3">
+                            <i class="fas fa-user-circle fa-3x text-primary"></i>
+                        </div>
+                        <blockquote class="mb-3">
+                            "Travel Company made my business trips so much more affordable. I saved over $200 on my last trip!"
+                        </blockquote>
+                        <cite class="fw-bold">- Sarah Johnson</cite>
+                        <div class="stars">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="card-body text-center">
+                        <div class="testimonial-avatar mb-3">
+                            <i class="fas fa-user-circle fa-3x text-success"></i>
+                        </div>
+                        <blockquote class="mb-3">
+                            "Not only did I save money, but I also made great friends during my journey. Highly recommended!"
+                        </blockquote>
+                        <cite class="fw-bold">- Mike Chen</cite>
+                        <div class="stars">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="card-body text-center">
+                        <div class="testimonial-avatar mb-3">
+                            <i class="fas fa-user-circle fa-3x text-warning"></i>
+                        </div>
+                        <blockquote class="mb-3">
+                            "The platform is so easy to use and the rides are always on time. Perfect for daily commuters!"
+                        </blockquote>
+                        <cite class="fw-bold">- Emily Davis</cite>
+                        <div class="stars">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 0 0 50px 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'><defs><pattern id='pattern' x='0' y='0' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='50' cy='50' r='2' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='1000' height='1000' fill='url(%23pattern)'/></svg>") repeat;
+    opacity: 0.1;
+}
+
+.hero-image {
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.stats-section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.stat-card {
+    padding: 2rem 1rem;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.features-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%);
+}
+
+.feature-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-color);
+}
+
+.feature-icon {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quick-actions-section {
+    background: white;
+}
+
+.action-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+}
+
+.testimonial-avatar {
+    display: flex;
+    justify-content: center;
+}
+
+.stars {
+    margin-top: 0.5rem;
+}
+
+.stars i {
+    margin: 0 2px;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center !important;
+        padding: 3rem 1rem;
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+    }
+
+    .action-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+}
+</style>
+
 {% endblock %}

@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings - Travel Company{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-calendar-check"></i> My Ride Bookings</h2>
+                <a href="{{ url_for('book_ride') }}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Book New Ride
+                </a>
+            </div>
+
+            {% if bookings %}
+                <div class="row">
+                    {% for booking in bookings %}
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card h-100 {% if booking.status == 'cancelled' %}border-warning{% elif booking.status == 'confirmed' %}border-success{% else %}border-primary{% endif %}">
+                                <div class="card-header {% if booking.status == 'cancelled' %}bg-warning text-dark{% elif booking.status == 'confirmed' %}bg-success{% else %}bg-primary{% endif %}">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">Booking #{{ booking.id }}</h6>
+                                        <span class="badge {% if booking.status == 'cancelled' %}bg-light text-dark{% elif booking.status == 'confirmed' %}bg-light text-success{% else %}bg-light text-primary{% endif %}">
+                                            {{ booking.status.title() }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <strong>Passenger:</strong> {{ booking.name }}<br>
+                                        <strong>Contact:</strong> {{ booking.contact }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>From:</strong> {{ booking.location }}<br>
+                                        <strong>To:</strong> {{ booking.destination }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Date:</strong> {{ booking.travel_date.strftime('%B %d, %Y') }}<br>
+                                        <strong>Time:</strong> {{ booking.travel_time.strftime('%I:%M %p') }}<br>
+                                        <strong>Passengers:</strong> {{ booking.passengers }}
+                                    </div>
+                                    <small class="text-muted">
+                                        Booked on {{ booking.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </small>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="{{ url_for('booking_confirmation', booking_id=booking.id) }}"
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                        {% if booking.status != 'cancelled' %}
+                                            <button class="btn btn-outline-danger btn-sm cancel-btn"
+                                                    data-booking-id="{{ booking.id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#cancelModal">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Bookings Yet</h4>
+                    <p class="text-muted">You haven't booked any rides yet. Start your journey!</p>
+                    <a href="{{ url_for('book_ride') }}" class="btn btn-primary">
+                        <i class="fas fa-car"></i> Book Your First Ride
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Booking Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">Cancel Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this booking?</p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Note:</strong> You can only cancel bookings more than 2 hours before the travel time.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Booking</button>
+                <button type="button" class="btn btn-danger" id="confirmCancel">Cancel Booking</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let bookingToCancel = null;
+
+    // Handle cancel button clicks
+    document.querySelectorAll('.cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            bookingToCancel = this.getAttribute('data-booking-id');
+        });
+    });
+
+    // Handle confirm cancel
+    document.getElementById('confirmCancel').addEventListener('click', function() {
+        if (!bookingToCancel) return;
+
+        fetch(`/cancel_booking/${bookingToCancel}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('cancelModal'));
+                modal.hide();
+
+                // Show success message
+                showAlert('success', data.message);
+
+                // Reload page after short delay
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                showAlert('error', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'An error occurred. Please try again.');
+        });
+    });
+
+    function showAlert(type, message) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const icon = type === 'success' ? 'check-circle' : 'exclamation-triangle';
+
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show position-fixed"
+                 style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                <i class="fas fa-${icon} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', alertHtml);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) {
+                alert.remove();
+            }
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

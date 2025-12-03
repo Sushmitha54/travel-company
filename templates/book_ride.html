@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block title %}Book Your Ride - Travel Company{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0"><i class="fas fa-car"></i> Book Your Ride</h2>
+                    <p class="mb-0 mt-1">Find the perfect ride for your journey</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="bookingForm" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.name.label(class="form-label") }}
+                                    {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                                    {% if form.name.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.contact.label(class="form-label") }}
+                                    {{ form.contact(class="form-control" + (" is-invalid" if form.contact.errors else "")) }}
+                                    {% if form.contact.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.contact.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.location.label(class="form-label") }}
+                                    {{ form.location(class="form-select" + (" is-invalid" if form.location.errors else "")) }}
+                                    {% if form.location.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.location.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.destination.label(class="form-label") }}
+                                    {{ form.destination(class="form-control" + (" is-invalid" if form.destination.errors else "")) }}
+                                    {% if form.destination.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.destination.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    {{ form.travel_date.label(class="form-label") }}
+                                    {{ form.travel_date(class="form-control" + (" is-invalid" if form.travel_date.errors else ""), type="date") }}
+                                    {% if form.travel_date.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.travel_date.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    {{ form.travel_time.label(class="form-label") }}
+                                    {{ form.travel_time(class="form-control" + (" is-invalid" if form.travel_time.errors else ""), type="time") }}
+                                    {% if form.travel_time.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.travel_time.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    {{ form.passengers.label(class="form-label") }}
+                                    {{ form.passengers(class="form-control" + (" is-invalid" if form.passengers.errors else ""), min="1", max="8") }}
+                                    {% if form.passengers.errors %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.passengers.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-success btn-lg") }}
+                        </div>
+                    </form>
+
+                    <div id="messages" class="mt-3" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Available Ride Groups Section -->
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="fas fa-users"></i> Available Ride Groups</h4>
+                    <small>Join existing groups going to similar destinations</small>
+                </div>
+                <div class="card-body">
+                    <div id="rideGroups" class="row">
+                        <div class="col-12 text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading available rides...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('bookingForm');
+    const messagesDiv = document.getElementById('messages');
+
+    // Load available ride groups
+    loadRideGroups();
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Clear previous messages
+        messagesDiv.style.display = 'none';
+        messagesDiv.innerHTML = '';
+
+        // Client-side validation
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
+
+        // Submit form
+        const formData = new FormData(form);
+
+        fetch('/book_ride', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showMessage('success', data.message);
+                form.reset();
+                form.classList.remove('was-validated');
+                // Redirect to confirmation page after short delay
+                setTimeout(() => {
+                    window.location.href = `/booking_confirmation/${data.booking_id}`;
+                }, 2000);
+            } else {
+                showMessage('error', data.message || 'An error occurred. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('error', 'Network error. Please check your connection and try again.');
+        });
+    });
+
+    function showMessage(type, message) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const icon = type === 'success' ? 'check-circle' : 'exclamation-triangle';
+
+        messagesDiv.innerHTML = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                <i class="fas fa-${icon} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        messagesDiv.style.display = 'block';
+    }
+
+    function loadRideGroups() {
+        fetch('/groups')
+            .then(response => response.json())
+            .then(data => {
+                const rideGroupsDiv = document.getElementById('rideGroups');
+                rideGroupsDiv.innerHTML = '';
+
+                if (Object.keys(data).length === 0) {
+                    rideGroupsDiv.innerHTML = `
+                        <div class="col-12 text-center">
+                            <p class="text-muted">No ride groups available at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                for (const [destination, rides] of Object.entries(data)) {
+                    html += `
+                        <div class="col-12 mb-3">
+                            <h5 class="text-primary">${destination}</h5>
+                            <div class="row">
+                    `;
+
+                    rides.forEach(ride => {
+                        html += `
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title">${ride.name}</h6>
+                                        <p class="card-text small">
+                                            <strong>From:</strong> ${ride.location}<br>
+                                            <strong>Contact:</strong> ${ride.contact}
+                                        </p>
+                                        <button class="btn btn-outline-primary btn-sm w-100 join-btn"
+                                                data-ride-id="${ride.id}">
+                                            Join Ride
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div></div>';
+                }
+
+                rideGroupsDiv.innerHTML = html;
+
+                // Add event listeners to join buttons
+                document.querySelectorAll('.join-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const rideId = this.getAttribute('data-ride-id');
+                        joinRide(rideId, this);
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Error loading ride groups:', error);
+                document.getElementById('rideGroups').innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-danger">Error loading available rides. Please refresh the page.</p>
+                    </div>
+                `;
+            });
+    }
+
+    function joinRide(rideId, button) {
+        fetch('/join', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ride_id: rideId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                button.classList.remove('btn-outline-primary');
+                button.classList.add('btn-success');
+                button.innerHTML = '<i class="fas fa-check"></i> Joined!';
+                button.disabled = true;
+                showMessage('success', 'Successfully joined the ride!');
+            } else {
+                showMessage('error', 'Unable to join ride. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error joining ride:', error);
+            showMessage('error', 'Error joining ride. Please check your connection.');
+        });
+    }
+});
+</script>
