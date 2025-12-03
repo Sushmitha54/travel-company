@@ -386,14 +386,9 @@ def create_app(*args, **kwargs):
 
         return jsonify(groups)
 
+    # Simple test route for Gunicorn
+    @app.route("/test")
+    def test():
+        return "App running successfully!"
+
     return app
-
-
-# -------------------------
-#        RUN SERVER
-# -------------------------
-
-app = create_app()
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
